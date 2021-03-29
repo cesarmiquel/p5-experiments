@@ -46,43 +46,53 @@ function draw() {
   let c4 = ["f72585","b5179e","7209b7","560bad","480ca8","3a0ca3","3f37c9","4361ee","4895ef","4cc9f0"];
   let c5 = ["f94144","f3722c","f8961e","f9844a","f9c74f","90be6d","43aa8b","4d908e","577590","277da1"];
   let c6 = ["ff595e","ffca3a","8ac926","1982c4","6a4c93"];
-
-  let colors = c6.map(function(i) { return '#' + i; });
+  let c7 = ["0d1b2a","1b263b","415a77","778da9","e0e1dd"];
 
   //rotateX(frameCount * 0.05);
   //rotateY(frameCount * 0.02);
-  //rotateZ(mouseX * 0.01);
+  //rotateZ(mouseX * 0.01);  // Use mouse to control angle
 
   strokeWeight(3);
   noFill();
   scale(scaleFactor);
-  i = 0;
-  for(t = 0; t < 1031; t++) {
 
-    if (t%30 == 0) {
-      beginShape();
-    }
-    let th  = (t % n1) * 2 * PI / n1;
-    let phi = (t % n2) * 2 * PI / n2;
+  function donut(offset, palette) {
+    let colors = palette.map(function(i) { return '#' + i; });
+    i = 0;
+    for(t = 0; t < 1031; t++) {
 
-    let x = R*cos(phi) + r*cos(phi)*cos(th);
-    let y = R*sin(phi) + r*sin(phi)*cos(th);
-    let z = r*sin(th);
+      if (t%30 == 0) {
+        beginShape();
+      }
+      let th  = (t % n1) * 2 * PI / n1;
+      let phi = (t % n2) * 2 * PI / n2 + offset;
 
-    curveVertex(x,y,z);
+      let x = R*cos(phi) + r*cos(phi)*cos(th);
+      let y = R*sin(phi) + r*sin(phi)*cos(th);
+      let z = r*sin(th);
 
-    if (t%30 == 29) {
-      endShape();
-      stroke(colors[i % colors.length]);
-      i++;
+      curveVertex(x,y,z);
+
+      if (t%30 == 29) {
+        endShape();
+        stroke(colors[i % colors.length]);
+        i++;
+      }
     }
   }
+
+  //palets = [c6, c5];
+  palets = [colorsGray, c6];
+  donut(0, palets[0]);
+  donut(0.4, palets[1]);
 
   // draw palette
-  for(j = 0; j < colors.length; j++) {
-    fill(colors[j]);
-    stroke(colors[j]);
-    square((j+1)*30, 300, 20);
+  for(k = 0; k < palets.length; k++) {
+    for(j = 0; j < palets[k].length; j++) {
+      let cp = palets[k].map(function(i) { return '#' + i; });
+      fill(cp[j]);
+      stroke(cp[j]);
+      square((j+1)*30, 300 + 2*k*20, 20);
+    }
   }
-
 }
