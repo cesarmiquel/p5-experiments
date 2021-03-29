@@ -4,7 +4,7 @@ function setup() {
 
 function draw() {
 
-  background("#111515");
+  background("#fefefe");
 
   let scaleFactor = 1;
 
@@ -40,7 +40,7 @@ function draw() {
   let c6 = ["ff595e","ffca3a","8ac926","1982c4","6a4c93"];
   let c7 = ["0d1b2a","1b263b","415a77","778da9","e0e1dd"];
 
-  strokeWeight(3);
+  strokeWeight(2);
   scale(scaleFactor);
 
   palets = [
