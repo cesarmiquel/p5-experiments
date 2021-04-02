@@ -8,11 +8,13 @@ function draw() {
 
   let scaleFactor = 1;
 
-  let R = 200;
-  let r = 60;
+  let R = 180;
+  let r = 80;
 
   let n1 = 17;
   let n2 = 57;
+
+  let colorPeriod = 30;
 
   // https://coolors.co/03071e-370617-6a040f-9d0208-d00000-dc2f02-e85d04-f48c06-faa307-ffba08
   let colors1 = [
@@ -49,10 +51,10 @@ function draw() {
   let c7 = ["0d1b2a","1b263b","415a77","778da9","e0e1dd"];
 
   //rotateX(frameCount * 0.05);
-  //rotateY(frameCount * 0.02);
-  //rotateZ(mouseX * 0.01);  // Use mouse to control angle
+  //rotateY(frameCount * 0.05);
+  //rotateX(mouseX * 0.01);  // Use mouse to control angle
 
-  strokeWeight(3);
+  strokeWeight(1);
   noFill();
   scale(scaleFactor);
 
@@ -61,19 +63,19 @@ function draw() {
     i = 0;
     for(t = 0; t < 1031; t++) {
 
-      if (t%30 == 0) {
+      if (t % colorPeriod == 0) {
         beginShape();
       }
       let th  = (t % n1) * 2 * PI / n1;
-      let phi = (t % n2) * 2 * PI / n2 + offset;
+      let phi = (t % n2) * 2 * PI / n2 + offset + noise(t)*0.2;
 
       let x = R*cos(phi) + r*cos(phi)*cos(th);
       let y = R*sin(phi) + r*sin(phi)*cos(th);
-      let z = r*sin(th);
+      let z = r*sin(th) + 0.8*r*noise(t);
 
       curveVertex(x,y,z);
 
-      if (t%30 == 29) {
+      if (t % colorPeriod == colorPeriod - 1) {
         endShape();
         stroke(colors[i % colors.length]);
         i++;
@@ -82,7 +84,8 @@ function draw() {
   }
 
   //palets = [c6, c5];
-  palets = [colorsGray, c6];
+  palets = [colorsGray, c3];
+  //palets = [colorsGray, c6];
   donut(0, palets[0]);
   donut(0.4, palets[1]);
 
